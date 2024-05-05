@@ -22,6 +22,8 @@ export default function GroupMembersTable({groupMembers}: groupMembersTableProps
             <TableCell>Age</TableCell>
             <TableCell>Sex</TableCell>
             <TableCell>Primary Language</TableCell>
+            <TableCell>Edit</TableCell>
+            <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -32,6 +34,8 @@ export default function GroupMembersTable({groupMembers}: groupMembersTableProps
               <TableCell>{row.age}</TableCell>
               <TableCell>{row.sex}</TableCell>
               <TableCell>{row.primaryLanguage}</TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           ))}
         </TableBody>

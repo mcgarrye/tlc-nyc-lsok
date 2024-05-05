@@ -54,7 +54,7 @@ function IndividualQuestions({isOpen, toggle, numberOfMembers, groupId, member, 
         primaryLanguage,
         secondaryLanguage,
         headOfGroup
-    }, setState] = useState(defaultGroupMember);
+    }, setState] = useState(member ? member : defaultGroupMember);
     const birthdateInputRef = useRef(null);
 
     const clearState = () => {
@@ -284,15 +284,6 @@ function IndividualQuestions({isOpen, toggle, numberOfMembers, groupId, member, 
                                 </select>
                             </label>
                         </section>
-                        <label className='Question'>
-                            {'Head of Group: '}
-                            <input
-                                type="checkbox"
-                                name="headOfGroup"
-                                checked={headOfGroup}
-                                onChange={e => onChangeCheckBox(e.target.name, !headOfGroup)}
-                            />
-                        </label>
                         <button disabled={disableSubmit()} type="submit">Add New Member</button>
                     </form>
                 </div>
