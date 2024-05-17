@@ -1,10 +1,9 @@
 import React, { useReducer, useRef, useState } from 'react';
+import { v4 } from 'uuid';
 import './App.css';
 import './Questions.css';
 import IndividualQuestions, { GroupMember } from './IndividualQuestions';
 import GroupMembersTable from './GroupMembersTable';
-// import { google } from 'googleapis';
-import { v4 } from 'uuid';
 
 export interface GroupData {
     id: string,
@@ -59,6 +58,7 @@ function IntakeQuestions() {
         learnedOf,
         madeAppointment,
     }, setState] = useState(defaultGroupData());
+    const [editMember, updateEditMember] = useState()
     const dateInputRef = useRef(null);
     const arrivalDateInputRef = useRef(null);
     const [groupMembers, dispatcher] = useReducer(groupMembersReducer, []);
@@ -90,23 +90,6 @@ function IntakeQuestions() {
             learnedOf,
             madeAppointment,
         ];
-        // (async () => {
-        //     const auth = new google.auth.JWT({
-        //       email: process.env.SERVICE_ACCOUNT_EMAIL,
-        //       key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
-        //       scopes: ["https://www.googleapis.com/auth/spreadsheets"]
-        //     })
-        //     const sheet = google.sheets("v4")
-        //     await sheet.spreadsheets.values.append({
-        //       spreadsheetId: process.env.SHEET_ID,
-        //       auth: auth,
-        //       range: "Sheet1",
-        //       valueInputOption: "RAW",
-        //       requestBody: {
-        //         values: [data]
-        //       }
-        //     })
-        //   })()          
         clearHandler();
         alert(`Submitted!`)
         clearState();
@@ -229,6 +212,7 @@ function IntakeQuestions() {
                 toggle={toggle}
                 numberOfMembers={groupMembers.length}
                 groupId={id}
+                member={editMember}
                 addHandler={addHandler}
                 updateHandler={updateHandler}
             />
