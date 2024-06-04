@@ -27,14 +27,13 @@ const client = new JWT({
 // Authorize and create a Google Sheets API instance
 const sheets = google.sheets({ version: "v4", auth: client });
 
-export async function append(data: CreateGroupDTO): Promise<string> {
+export async function append(data: CreateGroupDTO): Promise<SuccessDTO> {
     try {
         // Your spreadsheet ID
-        const spreadsheetId = "example";
 
-        const post =  await sheets.spreadsheets.values.append({
+        const postGroupData =  await sheets.spreadsheets.values.append({
             spreadsheetId: spreadsheetId,
-            range: "Sheet1",
+            range: "Group Data",
             valueInputOption: "RAW",
             requestBody: {
                 values: [[
@@ -51,13 +50,57 @@ export async function append(data: CreateGroupDTO): Promise<string> {
             }
         })
 
-        if (!post.data) {
-            console.log("No data found.");
-        } else {
-            console.log(post.data);
-            return post.data.toString()
+        const groupMembers = data.groupMembers?.map((member) => [
+            member.id,
+            data.id,
+            member.firstName,
+            member.lastName,
+            member.birthdate,
+            member.age,
+            member.sex,
+            member.pregnant,
+            member.countryOfOrigin,
+            member.primaryLanguage,
+            member.secondaryLanguage,
+            member.headOfGroup
+        ])
+
+        const postGroupMembers =  await sheets.spreadsheets.values.append({
+            spreadsheetId: spreadsheetId,
+            range: "Group Members",
+            valueInputOption: "RAW",
+            requestBody: {
+                values: groupMembers
+            }
+        })
+
+        if (!postGroupData.data) {
+            console.log("Group Data did not post");
+            return {
+                statusCode: 400,
+                message: "Post failure"
+            }
+        } 
+        
+        if (!postGroupMembers.data) {
+            console.log("Group Members did not post");
+            return {
+                statusCode: 400,
+                message: "Post failure"
+            }
+        }
+
+        console.log(postGroupData.data);
+        console.log(postGroupMembers?.data);
+        return {
+            statusCode: 201,
+            message: "Post successful"
         }
     } catch (error) {
         console.error("Error:", error);
+        return {
+            statusCode: 500,
+            message: "Post failure"
+        }
     }
 }
