@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { JWT } from "google-auth-library";
 import { CreateGroupDTO } from './createGroup.dto';
+import { SuccessDTO } from './success.dto';
 
 // Load the credentials from the service account key file
 export const credentials = {
