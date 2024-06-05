@@ -2,6 +2,7 @@ import { google } from "googleapis";
 import { JWT } from "google-auth-library";
 import { CreateGroupDTO } from './createGroup.dto';
 import { SuccessDTO } from './success.dto';
+import { InternalServerErrorException } from '@nestjs/common';
 
 // Load the credentials from the service account key file
 export const credentials = {
@@ -75,33 +76,21 @@ export async function append(data: CreateGroupDTO): Promise<SuccessDTO> {
             }
         })
 
-        if (!postGroupData.data) {
-            console.log("Group Data did not post");
-            return {
-                statusCode: 400,
-                message: "Post failure"
-            }
-        } 
-        
-        if (!postGroupMembers.data) {
-            console.log("Group Members did not post");
-            return {
-                statusCode: 400,
-                message: "Post failure"
-            }
+        if (postGroupData.status !== 200) {
+            console.log("Group Data did not post.", postGroupData);
+            throw new InternalServerErrorException(postGroupData);
         }
 
-        console.log(postGroupData.data);
-        console.log(postGroupMembers?.data);
-        return {
-            statusCode: 201,
-            message: "Post successful"
+        if (postGroupMembers.status !== 200) {
+            console.log("Group Members did not post.", postGroupMembers);
+            throw new InternalServerErrorException(postGroupMembers);
         }
+
+        console.log(postGroupData?.data);
+        console.log(postGroupMembers?.data);
+        return { success: true}
     } catch (error) {
         console.error("Error:", error);
-        return {
-            statusCode: 500,
-            message: "Post failure"
-        }
+        throw new InternalServerErrorException(error.errors.message);
     }
 }
