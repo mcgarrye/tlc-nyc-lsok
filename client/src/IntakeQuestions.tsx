@@ -77,19 +77,27 @@ function IntakeQuestions() {
         setisOpen(!isOpen);
     };
 
-    const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = [
-            id,
-            groupSize,
-            primaryNumber,
-            primaryEmail,
-            date,
-            arrivalDate,
-            residence,
-            learnedOf,
-            madeAppointment,
-        ];
+        const data = {
+            id: id,
+            groupSize: groupSize,
+            primaryNumber: primaryNumber,
+            primaryEmail: primaryEmail,
+            date: date,
+            arrivalDate: arrivalDate,
+            residence: residence,
+            learnedOf: learnedOf,
+            madeAppointment: madeAppointment,
+            groupMembers: groupMembers
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', passkey: "scotty-p" },
+            body: JSON.stringify(data)
+        };
+        const response = await fetch('http://localhost:3001/create', requestOptions);
+        const resJson = await response.json();
         clearHandler();
         alert(`Submitted!`)
         clearState();
@@ -211,7 +219,6 @@ function IntakeQuestions() {
                 isOpen={isOpen}
                 toggle={toggle}
                 numberOfMembers={groupMembers.length}
-                groupId={id}
                 member={editMember}
                 addHandler={addHandler}
                 updateHandler={updateHandler}

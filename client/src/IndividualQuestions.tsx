@@ -4,7 +4,6 @@ import './IndividualQuestions.css';
 
 export interface GroupMember {
     id: number,
-    groupId?: string,
     firstName: string,
     lastName: string,
     birthdate: string,
@@ -21,16 +20,14 @@ interface individualQuestionsProps{
     isOpen: boolean,
     toggle: () => void,
     numberOfMembers: number,
-    groupId: string,
     member?: GroupMember,
     addHandler: (member: GroupMember)=>void
     updateHandler: (member: GroupMember)=>void
 }
 
-function IndividualQuestions({isOpen, toggle, numberOfMembers, groupId, member, addHandler, updateHandler }: individualQuestionsProps) {
+function IndividualQuestions({isOpen, toggle, numberOfMembers, member, addHandler, updateHandler }: individualQuestionsProps) {
     const defaultGroupMember: GroupMember = {
         id: -1,
-        groupId: groupId,
         firstName: "",
         lastName: "",
         birthdate: "",

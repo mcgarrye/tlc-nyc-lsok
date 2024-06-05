@@ -7,8 +7,7 @@ import { SuccessDTO } from './success.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post()
-  create(@Body() createGroupDTO: CreateGroupDTO): Promise<string> {
+  @Post('create')
   create(@Body() createGroupDTO: CreateGroupDTO): Promise<SuccessDTO> {
     return this.appService.create(createGroupDTO);
   }
