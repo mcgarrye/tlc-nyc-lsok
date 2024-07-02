@@ -217,6 +217,7 @@ function IntakeQuestions() {
 
             <IndividualQuestions
                 isOpen={isOpen}
+                isEdit={false}
                 toggle={toggle}
                 numberOfMembers={groupMembers.length}
                 member={editMember}

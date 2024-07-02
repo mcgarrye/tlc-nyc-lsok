@@ -18,6 +18,7 @@ export interface GroupMember {
 
 interface individualQuestionsProps{
     isOpen: boolean,
+    isEdit: boolean,
     toggle: () => void,
     numberOfMembers: number,
     member?: GroupMember,
@@ -25,7 +26,7 @@ interface individualQuestionsProps{
     updateHandler: (member: GroupMember)=>void
 }
 
-function IndividualQuestions({isOpen, toggle, numberOfMembers, member, addHandler, updateHandler }: individualQuestionsProps) {
+function IndividualQuestions({isOpen, isEdit, toggle, numberOfMembers, member, addHandler, updateHandler}: individualQuestionsProps) {
     const defaultGroupMember: GroupMember = {
         id: -1,
         firstName: "",
@@ -41,6 +42,7 @@ function IndividualQuestions({isOpen, toggle, numberOfMembers, member, addHandle
     }
 
     const [{
+        id,
         firstName,
         lastName,
         birthdate,
@@ -115,7 +117,19 @@ function IndividualQuestions({isOpen, toggle, numberOfMembers, member, addHandle
 
     function handleSubmit() {
         if (member) {
-            // updateHandler
+            updateHandler({
+                id: id,
+                firstName: firstName,
+                lastName: lastName,
+                birthdate: birthdate,
+                age: age,
+                sex: sex,
+                pregnant: pregnant,
+                countryOfOrigin: countryOfOrigin,
+                primaryLanguage: primaryLanguage,
+                secondaryLanguage: secondaryLanguage,
+                headOfGroup: headOfGroup
+            });
         }
         else {
             addHandler({
@@ -131,8 +145,8 @@ function IndividualQuestions({isOpen, toggle, numberOfMembers, member, addHandle
                 secondaryLanguage: secondaryLanguage,
                 headOfGroup: headOfGroup
             });
-            clearState();
         }
+        clearState();
         toggle();
     };
 
