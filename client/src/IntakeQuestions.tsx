@@ -33,6 +33,7 @@ function groupMembersReducer(prevState: GroupMember[], action: any) {
 };
 
 function IntakeQuestions() {
+    const passkey: string = process.env.REACT_APP_API_PASS_KEY ? process.env.REACT_APP_API_PASS_KEY : ''
     function defaultGroupData() {
         return {
             id: v4(),
@@ -93,7 +94,7 @@ function IntakeQuestions() {
         };
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', passkey: "scotty-p" },
+            headers: { 'Content-Type': 'application/json', passkey: passkey },
             body: JSON.stringify(data)
         };
         const response = await fetch('http://localhost:3001/create', requestOptions);
